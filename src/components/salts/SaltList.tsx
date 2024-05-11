@@ -1,5 +1,11 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Box, Grid, Text, Button as ChakraButton } from '@chakra-ui/react';
+import {
+  Box,
+  Grid,
+  Text,
+  Button as ChakraButton,
+  GridItem,
+} from '@chakra-ui/react';
 import CustomContainer from '../containers/Container';
 import CustomButton from '../customInputs/Button';
 
@@ -13,7 +19,7 @@ interface LabelTextProps {
 
 const LabelText: React.FC<LabelTextProps> = ({ children }) => (
   <Text
-    mb="2"
+    pt="2"
     fontWeight="300"
     fontSize="15px"
     lineHeight="22.5px"
@@ -40,7 +46,6 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
   const packagings =
     selectedForm &&
     selectedStrength &&
-    salt.salt_forms_json[selectedForm] &&
     salt.salt_forms_json[selectedForm][selectedStrength]
       ? Object.keys(salt.salt_forms_json[selectedForm][selectedStrength])
       : [];
@@ -93,10 +98,22 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
           />
         ))}
       </Grid>
+
       {items.length > 4 && (
-        <ChakraButton size="sm" onClick={toggleShowAll}>
-          {showAll ? 'Hide' : 'More'}
-        </ChakraButton>
+        <GridItem alignSelf="flex-end" pb={5} pl={5}>
+          <Text
+            as="button"
+            cursor="pointer"
+            color="#204772"
+            fontWeight="700"
+            fontSize="14px"
+            lineHeight="21.84px"
+            onClick={() => toggleShowAll()}
+            ml={2}
+          >
+            {showAll ? 'Hide...' : 'More...'}
+          </Text>
+        </GridItem>
       )}
     </>
   );
@@ -104,7 +121,6 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
   return (
     <CustomContainer>
       <Box display="flex" flexDirection="column" width="70%">
-        {/* Form */}
         <Box display="flex">
           <Box minWidth="80px">
             <LabelText>Form:</LabelText>
@@ -118,7 +134,6 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
           )}
         </Box>
 
-        {/* Strength */}
         {selectedForm && (
           <Box display="flex">
             <Box minWidth="80px">
@@ -134,7 +149,6 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
           </Box>
         )}
 
-        {/* Packaging */}
         {selectedStrength && (
           <Box display="flex">
             <Box minWidth="80px">
