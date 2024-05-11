@@ -1,10 +1,20 @@
-import CustomButton from '@/components/CustomInputs/Button';
-import CustomDivider from '@/components/CustomInputs/Divider';
-import SearchInput from '@/components/CustomInputs/Search';
+import CustomContainer from '@/components/containers/Container';
+import CustomButton from '@/components/customInputs/Button';
+import CustomDivider from '@/components/customInputs/Divider';
+import SearchInput from '@/components/customInputs/Search';
+import PriceTag from '@/components/price/PriceTag';
+import SaltList from '@/components/salts/SaltList';
+import useProducts from '@/hooks/useProducts';
 import { Box, Text } from '@chakra-ui/react';
-import { Inter } from 'next/font/google';
+import { useState } from 'react';
 
 export default function Home() {
+  const [query, setQuery] = useState('');
+  const { data, loading, error } = useProducts(query);
+
+  const handleSearch = (value: string) => {
+    setQuery(value);
+  };
   const handleButtonClick = () => {};
   return (
     <Box
@@ -25,47 +35,30 @@ export default function Home() {
         Cappsule web development test
       </Text>
 
-      <SearchInput onSearch={() => {}} />
+      <SearchInput onSearch={handleSearch} />
 
       <CustomDivider />
 
-      <Box mt={200}>
-        <Text
-          fontFamily="Poppins, sans-serif"
-          fontSize="20px"
-          fontWeight="600"
-          lineHeight="36px"
-          textAlign="left"
-          color="#888888"
-        >
-          “ Find medicines with amazing discount “
-        </Text>
-      </Box>
-
-      <CustomButton
-        isSelected={true}
-        isAvailable={true}
-        onClick={handleButtonClick}
-        label="Selected"
-      />
-      <CustomButton
-        isSelected={false}
-        isAvailable={true}
-        onClick={handleButtonClick}
-        label="Not Selected"
-      />
-      <CustomButton
-        isSelected={false}
-        isAvailable={false}
-        onClick={handleButtonClick}
-        label="Not Available and Not Selected"
-      />
-      <CustomButton
-        isSelected={true}
-        isAvailable={false}
-        onClick={handleButtonClick}
-        label="Not Available and Selected"
-      />
+      {data && data.saltSuggestions ? (
+        data.saltSuggestions.map((salt, index) => (
+          <Box key={salt.id} mb={10} width="100%">
+            <SaltList salt={salt} />
+          </Box>
+        ))
+      ) : (
+        <Box mt={200}>
+          <Text
+            fontFamily="Poppins, sans-serif"
+            fontSize="20px"
+            fontWeight="600"
+            lineHeight="36px"
+            textAlign="left"
+            color="#888888"
+          >
+            “ Find medicines with amazing discount “
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 }

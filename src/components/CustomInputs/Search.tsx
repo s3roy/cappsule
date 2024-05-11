@@ -14,7 +14,13 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
   };
 
   const handleSearchClick = () => {
-    onSearch(inputValue);
+    onSearch(inputValue.trim());
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearchClick();
+    }
   };
 
   return (
@@ -38,6 +44,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
           paddingRight="14rem"
           value={inputValue}
           onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
           size="lg"
           height="60px"
           bg="white"

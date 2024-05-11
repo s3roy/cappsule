@@ -17,7 +17,7 @@ const CustomDivider: React.FC<CustomDividerProps> = ({
   padding = '4',
   backgroundColor = 'white',
   marginY = '10',
-  paddingX = '10',
+  paddingX = '5',
 }) => {
   return (
     <Box
