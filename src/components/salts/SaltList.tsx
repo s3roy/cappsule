@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid, GridItem, Text } from '@chakra-ui/react';
 import { ReactNode, useState, useEffect } from 'react';
 import CustomContainer from '@/components/containers/Container';
