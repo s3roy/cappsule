@@ -1,15 +1,9 @@
 import path from 'path';
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   reactStrictMode: true,
-  webpack(config, { isServer }) {
-    // Set up an alias for the 'src' directory
+  webpack: (config, { isServer }) => {
     config.resolve.alias['@'] = path.resolve(__dirname, 'src');
-
-    // Return the updated config
     return config;
   },
 };
-
-export default nextConfig;
