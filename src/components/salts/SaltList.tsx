@@ -1,9 +1,9 @@
 import { Box, Grid, GridItem, Text } from '@chakra-ui/react';
 import { ReactNode, useState, useEffect } from 'react';
-import CustomContainer from '../containers/Container';
+import CustomContainer from '@/components/containers/Container';
 import PriceDisplay from './PriceDisplay';
 import SaltDetails from './Salt';
-import CustomButton from '../customInputs/Button';
+import CustomButton from '@/components/customInputs/Button';
 
 interface SaltListProps {
   salt: {
