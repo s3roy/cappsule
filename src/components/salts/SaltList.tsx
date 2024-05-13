@@ -39,11 +39,15 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
   const [showAllPackagings, setShowAllPackagings] = useState(false);
 
   const forms = Object.keys(salt.salt_forms_json);
-  const strengths = selectedForm
-    ? Object.keys(salt.salt_forms_json[selectedForm])
-    : [];
+  const strengths =
+    selectedForm && salt.salt_forms_json[selectedForm]
+      ? Object.keys(salt.salt_forms_json[selectedForm])
+      : [];
   const packagings =
-    selectedForm && selectedStrength
+    selectedForm &&
+    selectedStrength &&
+    salt.salt_forms_json[selectedForm] &&
+    salt.salt_forms_json[selectedForm][selectedStrength]
       ? Object.keys(salt.salt_forms_json[selectedForm][selectedStrength])
       : [];
 
@@ -85,8 +89,7 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
         return Object.values(salt.salt_forms_json[item]).some((strength) =>
           Object.values(strength).some((packaging) =>
             Object.values(packaging).some(
-              (pharmacies) =>
-                pharmacies !== null && pharmacies.some((p) => p !== null)
+              (pharmacies) => pharmacies && pharmacies.some((p) => p)
             )
           )
         );
@@ -94,17 +97,13 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
         return Object.values(salt.salt_forms_json[selectedForm][item]).some(
           (packaging) =>
             Object.values(packaging).some(
-              (pharmacies) =>
-                pharmacies !== null && pharmacies.some((p) => p !== null)
+              (pharmacies) => pharmacies && pharmacies.some((p) => p)
             )
         );
       case 'packagings':
         return Object.values(
           salt.salt_forms_json[selectedForm][selectedStrength][item]
-        ).some(
-          (pharmacies) =>
-            pharmacies !== null && pharmacies.some((p) => p !== null)
-        );
+        ).some((pharmacies) => pharmacies && pharmacies.some((p) => p));
       default:
         return false;
     }

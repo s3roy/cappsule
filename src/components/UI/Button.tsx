@@ -14,7 +14,6 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onClick,
   label,
 }) => {
-  console.log({ label }, { isAvailable }, { isSelected });
   const buttonStyle = {
     background: '#FFFFFF',
     color: isSelected ? '#112D31' : '#555555',
@@ -48,14 +47,15 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       lineHeight={buttonStyle.lineHeight}
       borderRadius={buttonStyle.borderRadius}
       padding={buttonStyle.padding}
-      //   isDisabled={!isAvailable}
       _hover={{
         bg: 'none',
       }}
-      //   _disabled={{
-      //     opacity: 0.7,
-      //     cursor: 'not-allowed',
-      //   }}
+      style={{
+        maxWidth: '100%', // Ensures button does not overflow its container
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis', // Apply ellipsis when text overflows
+      }}
     >
       {label}
     </Button>
