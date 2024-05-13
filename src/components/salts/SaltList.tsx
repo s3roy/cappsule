@@ -1,9 +1,9 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import { Box, Grid, Text, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem, Text } from '@chakra-ui/react';
+import { ReactNode, useState, useEffect } from 'react';
 import CustomContainer from '../containers/Container';
-import CustomButton from '../customInputs/Button';
-import SaltDetails from './Salt';
 import PriceDisplay from './PriceDisplay';
+import SaltDetails from './Salt';
+import CustomButton from '../customInputs/Button';
 
 interface SaltListProps {
   salt: {
