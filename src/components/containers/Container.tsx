@@ -29,7 +29,7 @@ const CustomContainer: React.FC<CustomContainerProps> = ({ children }) => {
       justifyContent="space-between"
       alignItems="center"
       px={8}
-      py={10}
+      py={5}
     >
       {children}
     </Box>

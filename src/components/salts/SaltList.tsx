@@ -1,20 +1,19 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import {
-  Box,
-  Grid,
-  Text,
-  Button as ChakraButton,
-  GridItem,
-} from '@chakra-ui/react';
+import { Box, Grid, Text, GridItem } from '@chakra-ui/react';
 import CustomContainer from '../containers/Container';
 import CustomButton from '../customInputs/Button';
+import SaltDetails from './Salt';
+import PriceDisplay from './PriceDisplay';
 
 interface SaltListProps {
-  salt: SaltSuggestion;
+  salt: {
+    salt_forms_json: Form;
+    salt: string;
+  };
 }
 
 interface LabelTextProps {
-  children: ReactNode; // ReactNode is appropriate here as it can accept any valid React child
+  children: ReactNode;
 }
 
 const LabelText: React.FC<LabelTextProps> = ({ children }) => (
@@ -39,14 +38,11 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
   const [showAllPackagings, setShowAllPackagings] = useState(false);
 
   const forms = Object.keys(salt.salt_forms_json);
-  const strengths =
-    selectedForm && salt.salt_forms_json[selectedForm]
-      ? Object.keys(salt.salt_forms_json[selectedForm])
-      : [];
+  const strengths = selectedForm
+    ? Object.keys(salt.salt_forms_json[selectedForm])
+    : [];
   const packagings =
-    selectedForm &&
-    selectedStrength &&
-    salt.salt_forms_json[selectedForm][selectedStrength]
+    selectedForm && selectedStrength
       ? Object.keys(salt.salt_forms_json[selectedForm][selectedStrength])
       : [];
 
@@ -79,8 +75,43 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
     }
   };
 
+  const checkAvailability = (
+    item: string,
+    level: 'forms' | 'strengths' | 'packagings'
+  ): boolean => {
+    switch (level) {
+      case 'forms':
+        return Object.values(salt.salt_forms_json[item]).some((strength) =>
+          Object.values(strength).some((packaging) =>
+            Object.values(packaging).some(
+              (pharmacies) =>
+                pharmacies !== null && pharmacies.some((p) => p !== null)
+            )
+          )
+        );
+      case 'strengths':
+        return Object.values(salt.salt_forms_json[selectedForm][item]).some(
+          (packaging) =>
+            Object.values(packaging).some(
+              (pharmacies) =>
+                pharmacies !== null && pharmacies.some((p) => p !== null)
+            )
+        );
+      case 'packagings':
+        return Object.values(
+          salt.salt_forms_json[selectedForm][selectedStrength][item]
+        ).some(
+          (pharmacies) =>
+            pharmacies !== null && pharmacies.some((p) => p !== null)
+        );
+      default:
+        return false;
+    }
+  };
+
   const renderButtonGrid = (
     items: string[],
+    level: 'forms' | 'strengths' | 'packagings',
     showAll: boolean,
     setSelected: React.Dispatch<React.SetStateAction<string>>,
     selected: string,
@@ -92,7 +123,7 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
           <CustomButton
             key={item}
             isSelected={selected === item}
-            isAvailable={true}
+            isAvailable={checkAvailability(item, level)}
             onClick={() => setSelected(item)}
             label={item}
           />
@@ -120,13 +151,14 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
 
   return (
     <CustomContainer>
-      <Box display="flex" flexDirection="column" width="70%">
+      <Box display="flex" flexDirection="column" width="35%">
         <Box display="flex">
           <Box minWidth="80px">
             <LabelText>Form:</LabelText>
           </Box>
           {renderButtonGrid(
             forms,
+            'forms',
             showAllForms,
             setSelectedForm,
             selectedForm,
@@ -141,6 +173,7 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
             </Box>
             {renderButtonGrid(
               strengths,
+              'strengths',
               showAllStrengths,
               setSelectedStrength,
               selectedStrength,
@@ -156,6 +189,7 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
             </Box>
             {renderButtonGrid(
               packagings,
+              'packagings',
               showAllPackagings,
               setSelectedPackaging,
               selectedPackaging,
@@ -164,8 +198,22 @@ const SaltList: React.FC<SaltListProps> = ({ salt }) => {
           </Box>
         )}
       </Box>
-      <Box width="30%">Salt</Box>
-      <Box width="30%">Not available</Box>
+      <Box width="35%">
+        <SaltDetails
+          saltName={salt.salt}
+          form={selectedForm}
+          strength={selectedStrength}
+          packaging={selectedPackaging}
+        />
+      </Box>
+      <Box width="30%" display="flex" justifyContent="center">
+        <PriceDisplay
+          saltFormsJson={salt.salt_forms_json}
+          selectedForm={selectedForm}
+          selectedStrength={selectedStrength}
+          selectedPackaging={selectedPackaging}
+        />
+      </Box>
     </CustomContainer>
   );
 };

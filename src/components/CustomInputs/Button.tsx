@@ -14,6 +14,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onClick,
   label,
 }) => {
+  console.log({ label }, { isAvailable }, { isSelected });
   const buttonStyle = {
     background: '#FFFFFF',
     color: isSelected ? '#112D31' : '#555555',

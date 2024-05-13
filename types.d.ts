@@ -1,20 +1,26 @@
-interface PharmacyPrice {
-  [pharmacyId: string]: { selling_price: number } | null;
+interface Pharmacy {
+  pharmacy_id: number;
+  selling_price: number;
+}
+
+interface Product {
+  [key: string]: Pharmacy[] | null;
 }
 
 interface Packaging {
-  [packaging: string]: PharmacyPrice;
+  [key: string]: Product;
 }
 
 interface Strength {
-  [strength: string]: Packaging;
+  [key: string]: Packaging;
 }
 
 interface Form {
-  [form: string]: Strength;
+  [key: string]: Strength;
 }
 
 interface SaltSuggestion {
+  name: string;
   id: number;
   salt: string;
   salt_frequency: number;
