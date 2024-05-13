@@ -14,7 +14,7 @@ const useProducts = (query: string) => {
     axios
       .get(`${BASE_URL}/new_search?q=${query}&pharmacyIds=1,2,3`)
       .then((response) => {
-        setData(response.data.data); // Adjust according to actual API response structure
+        setData(response.data.data);
         setLoading(false);
       })
       .catch((err) => {

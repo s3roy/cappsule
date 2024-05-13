@@ -1,8 +1,5 @@
-import CustomContainer from '@/components/containers/Container';
-import CustomButton from '@/components/customInputs/Button';
 import CustomDivider from '@/components/customInputs/Divider';
 import SearchInput from '@/components/customInputs/Search';
-import PriceTag from '@/components/price/PriceTag';
 import SaltList from '@/components/salts/SaltList';
 import useProducts from '@/hooks/useProducts';
 import { Box, Text } from '@chakra-ui/react';
@@ -15,7 +12,7 @@ export default function Home() {
   const handleSearch = (value: string) => {
     setQuery(value);
   };
-  const handleButtonClick = () => {};
+
   return (
     <Box
       mx="10vw"
