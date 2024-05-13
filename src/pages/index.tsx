@@ -1,5 +1,5 @@
-import CustomDivider from '@/components/customInputs/Divider';
-import SearchInput from '@/components/customInputs/Search';
+import CustomDivider from '@/components/UI/Divider';
+import SearchInput from '@/components/UI/Search';
 import SaltList from '@/components/salts/SaltList';
 import useProducts from '@/hooks/useProducts';
 import { Box, Text } from '@chakra-ui/react';

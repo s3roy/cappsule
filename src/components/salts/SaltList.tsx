@@ -4,7 +4,7 @@ import { ReactNode, useState, useEffect } from 'react';
 import CustomContainer from '@/components/containers/Container';
 import PriceDisplay from './PriceDisplay';
 import SaltDetails from './Salt';
-import CustomButton from '@/components/customInputs/Button';
+import CustomButton from '../UI/Button';
 
 interface SaltListProps {
   salt: {
